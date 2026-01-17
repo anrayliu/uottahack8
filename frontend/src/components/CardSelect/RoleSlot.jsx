@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const RoleSlot = ({ role, roleKey, selected, required, onDrop, onRemove }) => {
+const RoleSlot = ({ role, selected, required, onDrop, onRemove }) => {
   const [isDragOver, setIsDragOver] = useState(false);
   const filled = selected.length;
   const slots = Array(required).fill(null);
