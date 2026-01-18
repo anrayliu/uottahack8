@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import Button from "../components/common/Button";
 
-// Simple markdown parser for **bold** text
+// Simple markdown parser for **bold** text, strips <think> tags
 const renderMarkdown = (text) => {
   if (!text) return text;
-  const parts = text.split(/(\*\*[^*]+\*\*)/g);
+  // Remove <think>...</think> blocks (some models output reasoning)
+  let cleaned = text.replace(/<think>[\s\S]*?<\/think>/gi, "").trim();
+  const parts = cleaned.split(/(\*\*[^*]+\*\*)/g);
   return parts.map((part, i) => {
     if (part.startsWith("**") && part.endsWith("**")) {
       return <strong key={i}>{part.slice(2, -2)}</strong>;

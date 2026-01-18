@@ -29,20 +29,27 @@ apps:
         
         1. **Puzzle**: The problem/puzzle that participants will debate and solve
         2. **Cards**: A JSON array of participant configurations, each with:
-           - model: "openai" (or "ChatGPT") or "gemini" for the LLM provider
+           - model: One of "ChatGPT", "Gemini", "Llama", "Qwen", or "Kimi"
            - role: One of "facilitator", "critic", "reasoner", "stateTracker"
            - personality: A personality trait (e.g., "analytical", "creative", "cautious")
            - expertise: Area of expertise (e.g., "logic", "mathematics", "science")
+        
+        **SUPPORTED MODELS**:
+        - "ChatGPT" or "openai" → OpenAI GPT-4o
+        - "Gemini" or "gemini" → Google Gemini 2.5 Flash
+        - "Llama" or "llama" → Llama 3.3 70B (via Groq)
+        - "Qwen" or "qwen" → Qwen3 32B (via Groq)
+        - "Kimi" or "kimi" → Llama 3.1 8B (via Groq)
         
         **IMPORTANT**: Exactly ONE card must have role="facilitator". The facilitator makes the final decision.
         
         Example cards JSON:
         ```json
         [
-          {"model": "openai", "role": "facilitator", "personality": "decisive", "expertise": "leadership"},
-          {"model": "gemini", "role": "critic", "personality": "skeptical", "expertise": "logic"},
-          {"model": "openai", "role": "reasoner", "personality": "analytical", "expertise": "mathematics"},
-          {"model": "gemini", "role": "stateTracker", "personality": "observant", "expertise": "fact-checking"}
+          {"model": "Qwen", "role": "facilitator", "personality": "decisive", "expertise": "leadership"},
+          {"model": "Llama", "role": "critic", "personality": "skeptical", "expertise": "logic"},
+          {"model": "ChatGPT", "role": "reasoner", "personality": "analytical", "expertise": "mathematics"},
+          {"model": "Gemini", "role": "stateTracker", "personality": "observant", "expertise": "fact-checking"}
         ]
         ```
         

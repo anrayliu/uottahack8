@@ -4,7 +4,7 @@ import Card from "../components/CardSelect/Card";
 import RoleSlot from "../components/CardSelect/RoleSlot";
 import Button from "../components/common/Button";
 
-const MODELS = ["Gemini", "ChatGPT"];
+const MODELS = ["Gemini", "ChatGPT", "Llama", "Qwen", "Kimi"];
 
 const EXPERTISE = [
   "Pattern Recognition",

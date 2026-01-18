@@ -118,6 +118,40 @@ def _call_gemini(messages: List[Dict[str, str]], model: str = "gemini-2.5-flash"
         return f"Gemini Error: {str(e)}"
 
 
+# Groq model mapping for Llama, Qwen, and Kimi
+GROQ_MODELS = {
+    "llama": "llama-3.3-70b-versatile",
+    "qwen": "qwen/qwen3-32b",  
+    "kimi": "moonshotai/kimi-k2-instruct",  # Real Kimi K2 on Groq - 256k context!
+}
+
+
+def _call_groq(messages: List[Dict[str, str]], model: str = "llama-3.3-70b-versatile") -> str:
+    """Call Groq API with the given messages."""
+    from openai import OpenAI
+    
+    api_key = os.environ.get("GROQ_API_KEY")
+    if not api_key:
+        return "Error: GROQ_API_KEY not set in environment"
+    
+    # Groq uses OpenAI-compatible API
+    client = OpenAI(
+        api_key=api_key,
+        base_url="https://api.groq.com/openai/v1"
+    )
+    
+    try:
+        response = client.chat.completions.create(
+            model=model,
+            messages=messages,
+            max_tokens=800,
+            temperature=0.7
+        )
+        return response.choices[0].message.content
+    except Exception as e:
+        return f"Groq Error: {str(e)}"
+
+
 def call_llm(
     provider: str,
     role: str,
@@ -171,10 +205,19 @@ def call_llm(
     elif provider == "gemini":
         model = model_name or "gemini-2.5-flash"
         response = _call_gemini(messages, model)
+    elif provider == "llama":
+        model = model_name or GROQ_MODELS["llama"]
+        response = _call_groq(messages, model)
+    elif provider == "qwen":
+        model = model_name or GROQ_MODELS["qwen"]
+        response = _call_groq(messages, model)
+    elif provider == "kimi":
+        model = model_name or GROQ_MODELS["kimi"]
+        response = _call_groq(messages, model)
     else:
         return {
             "status": "error",
-            "message": f"Unknown provider: {provider}. Use 'openai' or 'gemini'.",
+            "message": f"Unknown provider: {provider}. Use 'openai', 'gemini', 'llama', 'qwen', or 'kimi'.",
             "response": None
         }
     
@@ -276,6 +319,12 @@ def run_debate(
                 provider = "openai"
             elif provider.lower() in ["gemini", "google"]:
                 provider = "gemini"
+            elif provider.lower() == "llama":
+                provider = "llama"
+            elif provider.lower() == "qwen":
+                provider = "qwen"
+            elif provider.lower() == "kimi":
+                provider = "kimi"
             
             result = call_llm(
                 provider=provider,
@@ -324,6 +373,12 @@ def run_debate(
             fac_provider = "openai"
         elif fac_provider.lower() in ["gemini", "google"]:
             fac_provider = "gemini"
+        elif fac_provider.lower() == "llama":
+            fac_provider = "llama"
+        elif fac_provider.lower() == "qwen":
+            fac_provider = "qwen"
+        elif fac_provider.lower() == "kimi":
+            fac_provider = "kimi"
         
         fac_result = call_llm(
             provider=fac_provider,
