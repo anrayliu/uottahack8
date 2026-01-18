@@ -1,6 +1,17 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
 import Button from "../components/common/Button";
+
+// Simple markdown parser for **bold** text
+const renderMarkdown = (text) => {
+  if (!text) return text;
+  const parts = text.split(/(\*\*[^*]+\*\*)/g);
+  return parts.map((part, i) => {
+    if (part.startsWith("**") && part.endsWith("**")) {
+      return <strong key={i}>{part.slice(2, -2)}</strong>;
+    }
+    return part;
+  });
+};
 
 const PUZZLES = {
   "Math Problem": `What's 1 + 1?`,
@@ -26,7 +37,6 @@ Question: What happened to Beatrice, and what is about to happen to Julian?`,
 };
 
 const Game = () => {
-  const navigate = useNavigate();
   const [selectedOption, setSelectedOption] = useState("");
   const [puzzleText, setPuzzleText] = useState("");
   const [history, setHistory] = useState([]);
@@ -132,7 +142,7 @@ const Game = () => {
                     borderLeftWidth: "4px",
                   }}
                 >
-                  {item.text}
+                  {renderMarkdown(item.text)}
                 </div>
               ))
             )}
