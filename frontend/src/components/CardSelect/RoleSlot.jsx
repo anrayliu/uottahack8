@@ -82,10 +82,16 @@ const RoleSlot = ({ role, selected, required, onDrop, onRemove }) => {
                   />
                 </div>
                 <div className="absolute bottom-0 left-0 right-0 p-1.5 bg-neutral-900 space-y-0.5">
-                  <h3 className="text-white font-bold text-[10px] truncate">{selected[i].model}</h3>
+                  <h3 className="text-white font-bold text-[10px] truncate">
+                    {selected[i].model}
+                  </h3>
                   <div className="flex flex-col text-[8px]">
-                    <span className="text-blue-400 truncate">🎯 {selected[i].expertise}</span>
-                    <span className="text-purple-400 truncate">💭 {selected[i].personality}</span>
+                    <span className="text-blue-400 truncate">
+                      🎯 {selected[i].expertise}
+                    </span>
+                    <span className="text-purple-400 truncate">
+                      💭 {selected[i].personality}
+                    </span>
                   </div>
                 </div>
               </>
@@ -94,7 +100,7 @@ const RoleSlot = ({ role, selected, required, onDrop, onRemove }) => {
                 <span className="text-neutral-600 text-lg">+</span>
               </div>
             )}
-            )}
+            )
           </div>
         ))}
       </div>
