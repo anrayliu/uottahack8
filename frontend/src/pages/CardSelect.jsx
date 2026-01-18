@@ -195,8 +195,7 @@ const CardSelect = () => {
 
       if (!response.ok) throw new Error("Failed to submit deck");
 
-      const data = await response.json();
-      navigate("/game", { state: { deck: selectedCards, gameData: data } });
+      navigate("/game");
     } catch (err) {
       console.error("Error submitting deck:", err);
     }
